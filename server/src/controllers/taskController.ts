@@ -8,7 +8,7 @@ import {
   getTasksByStatus,
   clearAllTasks,
   clearCompletedTasks,
-} from "../mutations/taskServices.ts";
+} from "../database/mutations/taskServices.ts";
 
 export async function getAllTasksController(req: Request, res: Response) {
   try {

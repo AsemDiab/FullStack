@@ -1,4 +1,4 @@
-import { AppDataSource } from "../config/AppDataSource.ts";
+import { AppDataSource } from "../../config/AppDataSource.ts";
 import { User } from "../Entities/User.ts";
 
 const userRepository = AppDataSource.getRepository(User);

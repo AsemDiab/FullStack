@@ -1,6 +1,6 @@
 import { DataSource } from "typeorm";
-import { User } from "../Entities/User.ts";
-import { Task } from "../Entities/Task.ts";
+import { User } from "../database/Entities/User.ts";
+import { Task } from "../database/Entities/Task.ts";
 import ENV_CONFIG from "./config_env.ts";
 
 export const AppDataSource = new DataSource({

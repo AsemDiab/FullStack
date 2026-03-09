@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 
 import { TaskErrorResponse } from "../global/types.ts";
+import { TASKERRORS } from "../global/constants.ts";
 
 export function validateUpdateTask(
   req: Request,
@@ -9,17 +10,15 @@ export function validateUpdateTask(
 ) {
   const { content, status } = req.body;
 
-  // const ContentErrors = validateTaskContent(content ?? "c");
-  // const StatusErrors = validateTaskStatus(status ?? false);
-
-  // const errors: TaskErrorResponse = {};
-  // if (ContentErrors) errors.content = [...ContentErrors];
-  // if (StatusErrors) errors.status = StatusErrors;
-  // if (StatusErrors || ContentErrors) {
-  //   return res.status(400).json({
-  //     errors,
-  //   });
-  // }
+  const errors: TaskErrorResponse = {};
+  if (content !== undefined && content.trim().length === 0)
+    errors.content = TASKERRORS.CONTENTEMPTY;
+  if (status !== undefined && typeof status !== "boolean")
+    errors.status = TASKERRORS.STATUSINVALIDE;
+  if (Object.entries(errors).length)
+    return res.status(400).json({
+      errors,
+    });
 
   next();
 }

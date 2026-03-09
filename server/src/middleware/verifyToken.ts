@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import ENV_CONFIG from "../config/config_env.ts";
 import { AppDataSource } from "../config/AppDataSource.ts";
-import { User } from "../Entities/User.ts";
+import { User } from "../database/Entities/User.ts";
 
 export async function verifyToken(
   req: Request,

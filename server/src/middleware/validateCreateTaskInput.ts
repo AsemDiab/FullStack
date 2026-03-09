@@ -13,9 +13,10 @@ export function validateCreateTask(
   const errors: TaskErrorResponse = {};
   if (content.trim().length) errors.content = TASKERRORS.CONTENTEMPTY;
   if (typeof status !== "boolean") errors.status = TASKERRORS.STATUSINVALIDE;
-  return res.status(400).json({
-    errors,
-  });
+  if (Object.entries(errors).length)
+    return res.status(400).json({
+      errors,
+    });
 
   next();
 }

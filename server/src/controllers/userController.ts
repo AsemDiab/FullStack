@@ -5,7 +5,7 @@ import {
   deleteUserById,
   getUserByEmail,
   getUserById,
-} from "../mutations/userServices.ts";
+} from "../database/mutations/userServices.ts";
 import { Request, Response } from "express";
 import { generateToken } from "../common/generateToken.ts";
 import ENV_CONFIG from "../config/config_env.ts";
@@ -43,13 +43,13 @@ export async function login(req: Request, res: Response) {
     const { email, password_hash }: Omit<User, "id"> = req.body;
 
     const existingUser: User | null = await getUserByEmail(email);
-    
+
     if (!existingUser) {
       return res.status(401).json({
         message: "The email or password is not correct",
       });
     }
-    
+
     const isValid = await bcrypt.compare(
       password_hash + ENV_CONFIG.Security.PASSWORDPEPPER,
       existingUser.password_hash,

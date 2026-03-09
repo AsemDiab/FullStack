@@ -18,7 +18,7 @@ export async function verifyToken(
   }
 
   try {
-    const decoded = jwt.verify(token, ENV_CONFIG.JWT.SECRET);
+    const decoded = jwt.verify(token, ENV_CONFIG.JWT.SECRET) as JwtPayload;
 
     const userRepo = AppDataSource.getRepository(User);
     const existUser = await userRepo.findOne({

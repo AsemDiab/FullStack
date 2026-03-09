@@ -136,7 +136,9 @@ export async function deleteTaskController(req: Request, res: Response) {
 export async function getTasksByStatusController(req: Request, res: Response) {
   try {
     const { status } = req.params;
-    const userId = req.params.user_id;
+    const userId = Array.isArray(req.params.user_id)
+      ? req.params.user_id[0]
+      : req.params.user_id;
     const isCompleted = status === "completed" || status === "true";
 
     const tasks = await getTasksByStatus(isCompleted, userId);

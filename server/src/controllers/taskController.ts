@@ -8,16 +8,27 @@ import {
   getTasksByStatus,
   clearAllTasks,
   clearCompletedTasks,
+  getTaskCount,
 } from "../database/mutations/taskServices.ts";
 
 export async function getAllTasksController(req: Request, res: Response) {
   try {
     const userId = req.params.user_id;
     const userIdStr = Array.isArray(userId) ? userId[0] : userId;
-    const tasks = await getAllTasks(userIdStr);
+
+    const page = Math.max(1, Number(req.query.page) || 1);
+    const pageSize = Math.min(50, Number(req.query.pageSize) || 10);
+    const skip = (page - 1) * pageSize;
+
+    const tasks = await getAllTasks(userIdStr, skip, pageSize);
+    const tasksCount = await getTaskCount(userIdStr);
     return res.status(200).json({
       message: "Tasks retrieved successfully",
       tasks,
+      page,
+      pageSize,
+      total: tasksCount,
+      totalPages: Math.ceil(tasksCount / pageSize),
     });
   } catch (error) {
     return res.status(500).json({

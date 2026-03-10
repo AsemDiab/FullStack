@@ -4,8 +4,16 @@ import { User } from "../Entities/User.ts";
 
 const taskRepository = AppDataSource.getRepository(Task);
 
-export async function getAllTasks(ownerId: string): Promise<Task[]> {
-  return await taskRepository.find({ where: { user: { id: ownerId } } });
+export async function getAllTasks(
+  ownerId: string,
+  skip: number,
+  take: number,
+): Promise<Task[]> {
+  return await taskRepository.find({
+    where: { user: { id: ownerId } },
+    skip,
+    take,
+  });
 }
 
 export async function getTaskById(
@@ -79,4 +87,10 @@ export async function clearAllTasks(ownerId: string): Promise<void> {
 
 export async function clearCompletedTasks(ownerId: string): Promise<void> {
   await taskRepository.delete({ status: true, user: { id: ownerId } });
+}
+
+export async function getTaskCount(ownerId: string): Promise<number> {
+  return await taskRepository.count({
+    where: { user: { id: ownerId } },
+  });
 }

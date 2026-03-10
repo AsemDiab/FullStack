@@ -9,14 +9,12 @@ import {
   clearCompletedTasksController,
 } from "../controllers/taskController.ts";
 import { verifyToken } from "../middleware/verifyToken.ts";
-import { authorizeOwnership } from "../middleware/authorizeOwnership.ts";
 import { validateCreateTask } from "../middleware/validateCreateTaskInput.ts";
 import { validateUpdateTask } from "../middleware/validateUpdateTask.ts";
 
 export const TaskRouter = Router({ mergeParams: true });
 
 TaskRouter.use(verifyToken);
-// TaskRouter.use(authorizeOwnership);
 
 TaskRouter.get("/", getAllTasksController);
 TaskRouter.get("/:task_id", getTaskByIdController);
